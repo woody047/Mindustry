@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+  runs-on: ubuntu-latest
+
+  steps:
+  - uses: actions/checkout@v3
+  - uses: actions/setup-java@v3
+  with:
+    distribution: 'temurin'
+    java-version: '17'
+    cache: 'gradle'
+
+  - name: Build
+    run: './gradlew desktop:dist'
+
+ - name: Pack sprites
+    run: './gradlew tools:pack'
+
+ - name: Run unit tests
+    run: './gradlew test'  
